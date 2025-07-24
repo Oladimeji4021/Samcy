@@ -33,16 +33,15 @@ class UserController extends Controller
         }
 
 
-
 public function updateProfilePicture(UpdateProfilePictureRequest $request)
 {
-   $user = User::find(auth()->id()); 
-
-    if (!$user) {
-        return response()->json(['message' => 'User not found'], 404);
-    }
+    $user = $request->user();
 
     if ($request->hasFile('profile_picture')) {
+        if ($user->profile_picture) {
+            Storage::disk('public')->delete($user->profile_picture);
+        }
+
         $file = $request->file('profile_picture');
         $path = $file->store('profile_pictures', 'public');
 
