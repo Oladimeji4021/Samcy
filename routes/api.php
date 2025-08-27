@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseProgramController;
 
 
 
@@ -34,4 +36,9 @@ Route::middleware('auth:sanctum')->controller(UserController::class)->group(func
     Route::post('/profile-picture', 'updateProfilePicture');
 });
 
+Route::apiResource('courses', CourseController::class);
+
+Route::apiResource('course-programs', CourseProgramController::class);
+
+Route::get('courses/{courseId}/programs', [CourseProgramController::class, 'getByCourse']);
 
